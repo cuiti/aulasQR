@@ -1,3 +1,16 @@
+# PhoneGap + ionic files and directories
+/platforms
+/plugins
+/hooks
+/.cordova
+node_modules
+.tmp
+.sass-cache
+**/bower_components or sometimes it is lib/**
+*.swp
+*.swo
+*.log
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
