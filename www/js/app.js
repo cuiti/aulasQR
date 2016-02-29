@@ -5,6 +5,9 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
+
+var valid_numbers = ["2222","7777","8888","9999"];
+
 qrApp = angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','ngCordova'])
 
 .run(function($ionicPlatform) {
@@ -26,15 +29,20 @@ qrApp = angular.module('starter', ['ionic', 'starter.controllers', 'starter.serv
 
 
   qrApp.controller("qrController", function($scope, $cordovaBarcodeScanner) {
- 
+
     $scope.scanBarcode = function() {
         $cordovaBarcodeScanner.scan().then(function(imageData) {
-            alert(imageData.text);
+            var index = valid_numbers.indexOf(imageData.text);		//chequea si el numero encontrado es valido
+			if (index < 0 ){
+				alert("El numero encontrado no es valido: "+imageData.text);
+			}else{
+				alert("El numero "+imageData.text+" es valido! :D" );
+			}
             console.log("Barcode Format -> " + imageData.format);
             console.log("Cancelled -> " + imageData.cancelled);
         }, function(error) {
             console.log("An error happened -> " + error);
         });
     };
- 
+
 });
