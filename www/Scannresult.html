@@ -3,20 +3,12 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-    <title></title>
+    <title>Resultado</title>
 
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
-
-    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
-    <link href="css/ionic.app.css" rel="stylesheet">
-    -->
-
-    <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
-
-    <!-- cordova script (this will be a 404 during development) -->
-	<script src="js/ng-cordova.min.js"></script>
+    <script src="js/ng-cordova.min.js"></script>
     <script src="cordova.js"></script>
 
     <!-- your app's js -->
@@ -24,13 +16,24 @@
     <script src="js/controllers.js"></script>
     <script src="js/services.js"></script>
   </head>
-  
-  <body ng-app="starter">
-    <div class="text-center">
-	<ion-content ng-controller="qrController">
-			<button class="button button-assertive" ng-click="scanBarcode()">Scan</button>
 
-	</ion-content>
+  <body ng-app="starter">
+  <div ng-controller="qrController">
+    <div class="list card">
+    <div class="item item-avatar">
+    <h2>Información del código</h2>
+    <h2>   escaneado</h2>
+    <p>Aula: {{ result }}</p>
   </div>
+
+  <div class="item item-image">
+    <img src="img/aula.png">
+  </div>
+
+  <a class="item item-icon-left assertive" ng-click="scanBarcode()" href="#">
+    <i class="icon ion-music-note"></i>
+Volver a escanear  </a>
+
+</div>  </div>
 </body>
 </html>

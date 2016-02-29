@@ -5,7 +5,6 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-
 var valid_numbers = ["2222","7777","8888","9999"];
 
 qrApp = angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','ngCordova'])
@@ -29,20 +28,30 @@ qrApp = angular.module('starter', ['ionic', 'starter.controllers', 'starter.serv
 
 
   qrApp.controller("qrController", function($scope, $cordovaBarcodeScanner) {
-
+    document.addEventListener("deviceready", function () {
+    $scope.result="";
     $scope.scanBarcode = function() {
-        $cordovaBarcodeScanner.scan().then(function(imageData) {
-            var index = valid_numbers.indexOf(imageData.text);		//chequea si el numero encontrado es valido
-			if (index < 0 ){
-				alert("El numero encontrado no es valido: "+imageData.text);
-			}else{
-				alert("El numero "+imageData.text+" es valido! :D" );
-			}
-            console.log("Barcode Format -> " + imageData.format);
-            console.log("Cancelled -> " + imageData.cancelled);
-        }, function(error) {
-            console.log("An error happened -> " + error);
-        });
-    };
+        $cordovaBarcodeScanner.scan().then(successCallback, errorCallback);
+        }});
 
+    errorCallback = function (error) {
+    alert("An error happened -> " + error);
+    }
+    successCallback= function(imageData){
+        alert("adentro del success");
+        var index = valid_numbers.indexOf(imageData.text);    //chequea si el numero encontrado es valido
+        if (index < 0 ){
+          alert("El código encontrado no es valido: "+imageData.text);
+        }else{
+            alert("El código "+imageData.text+" es valido! :D" );
+            $scope.result=imageData.text;
+            alert("El Scope es " + $scope.result);
+            $scope.$apply();
+          alert("El Scope es 2" + $scope.result);
+
+            if(imageData.cancelled) alert("Volve a internarlo!");
+            else
+            window.location = "Scannresult.html";
+           }
+    }
 });
