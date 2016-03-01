@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 var valid_numbers = ["2222","7777","8888","9999"];
 
-qrApp = angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','ngCordova'])
+qrApp = angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','ngCordova', 'cordovaHTTP'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -57,4 +57,24 @@ qrApp = angular.module('starter', ['ionic', 'starter.controllers', 'starter.serv
         }
       }
     }
-});
+  })
+
+  .controller("serverController", function($scope,cordovaHTTP){
+
+    $scope.getData = function(uri){
+      var username = "movilesbluetooth";
+      var password = "3mFh5qNR";
+      var url = "http://movilesbluetooth.php.info.unlp.edu.ar/alumnos/1";
+
+
+      cordovaHTTP.useBasicAuth(username,password);
+
+      cordovaHTTP.get(url).then(function(response) {
+              alert(response.data);
+              $scope.response_data = response.data;
+            });
+
+    }
+
+
+  });

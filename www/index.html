@@ -27,8 +27,10 @@
 
   <body ng-app="starter">
     <div class="text-center">
+
 	<ion-content ng-controller="qrController">
 			<button id="startScan" class="button button-assertive" ng-click="scanBarcode()">Scan</button>
+
 
     <div id="result" ng-controller="qrController" style="display: none">
       <div class="list card">
@@ -47,8 +49,15 @@
           Volver a escanear  </a>
 
       </div>  </div>
-
+    <div ng-controller="serverController">
+      <br>
+      <button id="makeRequest" class="button button-assertive" ng-click="getData('algo')">Server</button>
+    </div>
 	</ion-content>
+
+      <!--<ion-content ng-controller="serverController">-->
+         <!--<button id="makeRequest" class="button button-assertive" ng-click="getData('algo')">Server</button>-->
+        <!--</ion-content>-->
   </div>
 </body>
 </html>
