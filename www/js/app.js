@@ -25,9 +25,7 @@ qrApp = angular.module('starter', ['ionic', 'starter.controllers', 'starter.serv
   });
 })
 
-
-
-  qrApp.controller("qrController", function($scope, $cordovaBarcodeScanner) {
+  .controller("qrController", function($scope, $cordovaBarcodeScanner) {
     document.addEventListener("deviceready", function () {
     $scope.result="";
     $scope.scanBarcode = function() {
@@ -36,22 +34,27 @@ qrApp = angular.module('starter', ['ionic', 'starter.controllers', 'starter.serv
 
     errorCallback = function (error) {
     alert("An error happened -> " + error);
-    }
+    };
     successCallback= function(imageData){
-        alert("adentro del success");
+      if (imageData.text=="" || imageData.text==null) {
+          alert("texto en blanco");
+          this.scanBarcode();
+      }
+      else{
         var index = valid_numbers.indexOf(imageData.text);    //chequea si el numero encontrado es valido
-        if (index < 0 ){
-          alert("El código encontrado no es valido: "+imageData.text);
-        }else{
-            alert("El código "+imageData.text+" es valido! :D" );
-            $scope.result=imageData.text;
-            alert("El Scope es " + $scope.result);
-            $scope.$apply();
-          alert("El Scope es 2" + $scope.result);
-
-            if(imageData.cancelled) alert("Volve a internarlo!");
-            else
-            window.location = "Scannresult.html";
-           }
+        if (index >= 0) {
+          alert("El código " + imageData.text + " es valido! :D");
+          $scope.result = imageData.text;
+          $scope.$apply();
+          if (imageData.cancelled) alert("Volve a internarlo!");
+          else{
+          document.getElementById("startScan").style.display = "none";
+          document.getElementById("result").style.display = "";
+        }
+        }
+        else {
+          alert("El código encontrado no es valido: " + imageData.text);
+        }
+      }
     }
 });

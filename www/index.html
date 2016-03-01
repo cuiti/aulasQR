@@ -24,11 +24,29 @@
     <script src="js/controllers.js"></script>
     <script src="js/services.js"></script>
   </head>
-  
+
   <body ng-app="starter">
     <div class="text-center">
 	<ion-content ng-controller="qrController">
-			<button class="button button-assertive" ng-click="scanBarcode()">Scan</button>
+			<button id="startScan" class="button button-assertive" ng-click="scanBarcode()">Scan</button>
+
+    <div id="result" ng-controller="qrController" style="display: none">
+      <div class="list card">
+        <div class="item item-avatar">
+          <h2>Información del código</h2>
+          <h2>   escaneado</h2>
+          <p>Aula: {{ result }}</p>
+        </div>
+
+        <div class="item item-image">
+          <img src="img/aula.png">
+        </div>
+
+        <a class="item item-icon-left assertive" ng-click="scanBarcode()" href="#">
+          <i class="icon ion-social-angular"></i>
+          Volver a escanear  </a>
+
+      </div>  </div>
 
 	</ion-content>
   </div>
