@@ -25,7 +25,7 @@ qrApp = angular.module('starter', ['ionic', 'starter.controllers', 'starter.serv
   });
 })
 
-  .controller("qrController", function($scope, $cordovaBarcodeScanner) {
+   .controller("qrController", function($scope, $cordovaBarcodeScanner,$cordovaToast) {
     document.addEventListener("deviceready", function () {
     $scope.result="";
     $scope.scanBarcode = function() {
@@ -37,27 +37,38 @@ qrApp = angular.module('starter', ['ionic', 'starter.controllers', 'starter.serv
     };
     successCallback= function(imageData){
       if (imageData.text=="" || imageData.text==null) {
-          alert("texto en blanco");
-          this.scanBarcode();
+          $scope.scanBarcode();
       }
       else{
         var index = valid_numbers.indexOf(imageData.text);    //chequea si el numero encontrado es valido
         if (index >= 0) {
-          alert("El código " + imageData.text + " es valido! :D");
+          if(imageData.text.match(/^(http|https)\:\/\/[a-z0-9\.-]+\.[a-z]{2,4}/gi)){ //si es una URL, redirecciona
+            alert("es una url");
+            //window.location.href =imageData.text;
+          }
+          else {
+            alert("no es una url");
           $scope.result = imageData.text;
-          $scope.$apply();
           if (imageData.cancelled) alert("Volve a internarlo!");
           else{
           document.getElementById("startScan").style.display = "none";
           document.getElementById("result").style.display = "";
         }
         }
+      }
         else {
-          alert("El código encontrado no es valido: " + imageData.text);
+          $cordovaToast.show('     El código no es válido     ', 'long', 'center')
+          .then(function(success) {
+                      setTimeout(function(){$scope.scanBarcode();}, 2000);          
+
+          }, function (error) {
+          // error
+          });
+
         }
       }
     }
-  })
+})
 
   .controller("serverController", function($scope,cordovaHTTP){
 
@@ -65,8 +76,6 @@ qrApp = angular.module('starter', ['ionic', 'starter.controllers', 'starter.serv
       var username = "movilesbluetooth";
       var password = "3mFh5qNR";
       var url = "http://movilesbluetooth.php.info.unlp.edu.ar/alumnos/1";
-
-
       cordovaHTTP.useBasicAuth(username,password);
 
       cordovaHTTP.get(url).then(function(response) {
