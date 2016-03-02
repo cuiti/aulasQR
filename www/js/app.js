@@ -71,16 +71,16 @@ qrApp.controller("qrController", function($scope, $cordovaBarcodeScanner,$cordov
 });
 
 qrApp.controller("serverController", function($scope, cordovaHTTP){
-console.log("app3 on");
+      console.log("app3 on");
      $scope.getData = function(){
-       console.log("adentro del scope");
-      var username = "movilesbluetooth";
-      var password = "3mFh5qNR";
+        console.log("adentro del scope");
+        var username = "movilesbluetooth";
+        var password = "3mFh5qNR";
+        var url = "http://cuiti.esy.es/meses/";
 
-       var url = "http://movilesbluetooth.php.info.unlp.edu.ar/alumnos/1";
-      cordovaHTTP.useBasicAuth(username,password);
-
-      cordovaHTTP.get(url).then(function(response) {
+       // cordovaHTTP.useBasicAuth(username,password);
+       cordovaHTTP.get()
+        cordovaHTTP.get(url, {message: "test"} , {}).then(function(response) {
               alert(response.data);
               $scope.response_data = response.data;
             });
