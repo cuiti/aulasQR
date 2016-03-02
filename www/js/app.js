@@ -6,11 +6,11 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 var valid_numbers = ["2222","7777","8888","9999"];
+var qrApp = angular.module('starter', ['cordovaHTTP', 'ionic','ngCordova']);
 
-qrApp = angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','ngCordova', 'cordovaHTTP'])
-
-.run(function($ionicPlatform) {
+qrApp.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
+
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -23,9 +23,9 @@ qrApp = angular.module('starter', ['ionic', 'starter.controllers', 'starter.serv
       StatusBar.styleDefault();
     }
   });
-})
+});
 
-   .controller("qrController", function($scope, $cordovaBarcodeScanner,$cordovaToast) {
+qrApp.controller("qrController", function($scope, $cordovaBarcodeScanner,$cordovaToast) {
     document.addEventListener("deviceready", function () {
     $scope.result="";
     $scope.scanBarcode = function() {
@@ -59,7 +59,7 @@ qrApp = angular.module('starter', ['ionic', 'starter.controllers', 'starter.serv
         else {
           $cordovaToast.show('     El código no es válido     ', 'long', 'center')
           .then(function(success) {
-                      setTimeout(function(){$scope.scanBarcode();}, 2000);          
+                      setTimeout(function(){$scope.scanBarcode();}, 2000);
 
           }, function (error) {
           // error
@@ -68,22 +68,22 @@ qrApp = angular.module('starter', ['ionic', 'starter.controllers', 'starter.serv
         }
       }
     }
-})
+});
 
-  .controller("serverController", function($scope,cordovaHTTP){
-
-    $scope.getData = function(uri){
+qrApp.controller("serverController", function($scope, cordovaHTTP){
+console.log("app3 on");
+     $scope.getData = function(){
+       console.log("adentro del scope");
       var username = "movilesbluetooth";
       var password = "3mFh5qNR";
-      var url = "http://movilesbluetooth.php.info.unlp.edu.ar/alumnos/1";
+
+       var url = "http://movilesbluetooth.php.info.unlp.edu.ar/alumnos/1";
       cordovaHTTP.useBasicAuth(username,password);
 
       cordovaHTTP.get(url).then(function(response) {
               alert(response.data);
               $scope.response_data = response.data;
             });
-
     }
-
 
   });

@@ -8,24 +8,43 @@
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 
-    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
-    <link href="css/ionic.app.css" rel="stylesheet">
-    -->
 
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
 
     <!-- cordova script (this will be a 404 during development) -->
-	<script src="js/ng-cordova.min.js"></script>
+	  <script src="js/ng-cordova.min.js"></script>
     <script src="cordova.js"></script>
 
     <!-- your app's js -->
     <script src="js/app.js"></script>
-    <script src="js/controllers.js"></script>
-    <script src="js/services.js"></script>
+
+    <script type="text/javascript">
+      var pgapp = {
+        initialize: function () {
+          console.log("adentro de init");
+          this.bindEvents();
+        },
+
+        // Bind any events that are required on startup. Common events are:
+        // 'load', 'deviceready', 'offline', and 'online'.
+        bindEvents: function () {
+          console.log("adentro de bind");
+            document.addEventListener('deviceready', this.onDeviceReady, false);
+        },
+
+        onDeviceReady: function () {
+          console.log("adentro de device");
+          angular.element(document).ready(function() {
+            angular.bootstrap(document, ['starter']);
+          });
+        }
+      };
+    </script>
+
   </head>
 
-  <body ng-app="starter">
+  <body>
     <div class="text-center">
 
 	<ion-content ng-controller="qrController">
@@ -51,7 +70,7 @@
       </div>  </div>
     <div ng-controller="serverController">
       <br>
-      <button id="makeRequest" class="button button-assertive" ng-click="getData('algo')">Server</button>
+      <button id="makeRequest" class="button button-assertive" ng-click="getData()">Server</button>
     </div>
 	</ion-content>
 
@@ -59,5 +78,8 @@
          <!--<button id="makeRequest" class="button button-assertive" ng-click="getData('algo')">Server</button>-->
         <!--</ion-content>-->
   </div>
-</body>
+    <script type="text/javascript">
+      pgapp.initialize();
+    </script>
+  </body>
 </html>
