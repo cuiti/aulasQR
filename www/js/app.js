@@ -5,11 +5,21 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-var valid_numbers = ["2222","http://google.com","8888","9999"];
+var valid_numbers = ["039134ef682c6accd7bfda726caa7305", //aula2-1 a la 2-5
+                      "e51ae93ce758643968b56ad582728726",
+                      "452e96dba9cb2bad8156ab6460c1c657",
+                      "0addd19f7d26c3ef48b669183312d5e6",
+                      "261dc577773c7690ca34f36ea8c04327"];
 var qrApp = angular.module('starter', ['cordovaHTTP', 'ionic','ngCordova']);
 
 qrApp.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
+    window.localStorage.setItem("039134ef682c6accd7bfda726caa7305", "http://google.com");
+    window.localStorage.setItem("e51ae93ce758643968b56ad582728726", "Aula de posgrado 2");
+    window.localStorage.setItem("452e96dba9cb2bad8156ab6460c1c657", "value");
+    window.localStorage.setItem("0addd19f7d26c3ef48b669183312d5e6", "value");
+    window.localStorage.setItem("261dc577773c7690ca34f36ea8c04327", "value");
+
 
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -42,11 +52,12 @@ qrApp.controller("qrController", function($scope, $cordovaBarcodeScanner,$cordov
       else{
         var index = valid_numbers.indexOf(imageData.text);    //chequea si el numero encontrado es valido
         if (index >= 0) {
-          if(imageData.text.match(/^(http|https)\:\/\/[a-z0-9\.-]+\.[a-z]{2,4}/gi)){ //si es una URL, redirecciona
-            cordova.InAppBrowser.open(imageData.text, "_self", "location=yes");
+          datoQR=localStorage.getItem(imageData.text);
+          if(datoQR.match(/^(http|https)\:\/\/[a-z0-9\.-]+\.[a-z]{2,4}/gi)){ //si es una URL, redirecciona
+            cordova.InAppBrowser.open(datoQR, "_self", "location=yes");
           }
           else {
-          $scope.result = imageData.text;
+          $scope.result = datoQR;
           if (imageData.cancelled) alert("Volve a internarlo!");
           else{
           document.getElementById("startScan").style.display = "none";
