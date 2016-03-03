@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-var valid_numbers = ["2222","7777","8888","9999"];
+var valid_numbers = ["2222","http://google.com","8888","9999"];
 var qrApp = angular.module('starter', ['cordovaHTTP', 'ionic','ngCordova']);
 
 qrApp.run(function($ionicPlatform) {
@@ -44,7 +44,7 @@ qrApp.controller("qrController", function($scope, $cordovaBarcodeScanner,$cordov
         if (index >= 0) {
           if(imageData.text.match(/^(http|https)\:\/\/[a-z0-9\.-]+\.[a-z]{2,4}/gi)){ //si es una URL, redirecciona
             alert("es una url");
-            //window.location.href =imageData.text;
+            cordova.InAppBrowser.open(imageData.text, "_self", "location=yes");
           }
           else {
             alert("no es una url");
