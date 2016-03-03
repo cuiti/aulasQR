@@ -16,9 +16,9 @@ qrApp.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     window.localStorage.setItem("039134ef682c6accd7bfda726caa7305", "http://google.com");
     window.localStorage.setItem("e51ae93ce758643968b56ad582728726", "Aula de posgrado 2");
-    window.localStorage.setItem("452e96dba9cb2bad8156ab6460c1c657", "value");
-    window.localStorage.setItem("0addd19f7d26c3ef48b669183312d5e6", "value");
-    window.localStorage.setItem("261dc577773c7690ca34f36ea8c04327", "value");
+    window.localStorage.setItem("452e96dba9cb2bad8156ab6460c1c657", "Aula de posgrado 3");
+    window.localStorage.setItem("0addd19f7d26c3ef48b669183312d5e6", "Aula de posgrado 4");
+    window.localStorage.setItem("261dc577773c7690ca34f36ea8c04327", "Aula de posgrado 5");
 
 
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
