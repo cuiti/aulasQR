@@ -43,11 +43,9 @@ qrApp.controller("qrController", function($scope, $cordovaBarcodeScanner,$cordov
         var index = valid_numbers.indexOf(imageData.text);    //chequea si el numero encontrado es valido
         if (index >= 0) {
           if(imageData.text.match(/^(http|https)\:\/\/[a-z0-9\.-]+\.[a-z]{2,4}/gi)){ //si es una URL, redirecciona
-            alert("es una url");
             cordova.InAppBrowser.open(imageData.text, "_self", "location=yes");
           }
           else {
-            alert("no es una url");
           $scope.result = imageData.text;
           if (imageData.cancelled) alert("Volve a internarlo!");
           else{
