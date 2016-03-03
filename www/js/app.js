@@ -85,7 +85,7 @@ qrApp.controller("serverController", function($scope, cordovaHTTP){
         console.log("adentro del scope");
         var username = "movilesbluetooth";
         var password = "3mFh5qNR";
-        var url = "http://cuiti.esy.es/meses/";
+        var url = "http://cuiti.esy.es/codes/";
 
        // cordovaHTTP.useBasicAuth(username,password);
        cordovaHTTP.get()
