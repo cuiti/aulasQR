@@ -7,7 +7,8 @@
 
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
-
+    <!--Jquery-->
+    <script type="text/javascript" src="lib/jquery/jquery-2.1.4.min.js"></script>
 
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
@@ -56,11 +57,13 @@
         <div class="item item-avatar">
           <h2>Información del código</h2>
           <h2>   escaneado</h2>
-          <p>Aula: {{ result }}</p>
+          <p>Aula: {{ title }}</p>
+
+          <p>Descripción: {{ description }}</p>
         </div>
 
         <div class="item item-image">
-          <img src="img/aula.png">
+          <img src="img/"+{{imagetitle}}>
         </div>
 
         <a class="item item-icon-left assertive" ng-click="scanBarcode()" href="#">

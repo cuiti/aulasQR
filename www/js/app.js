@@ -10,37 +10,79 @@ var valid_numbers = ["039134ef682c6accd7bfda726caa7305", //aula2-1 a la 2-5
                       "452e96dba9cb2bad8156ab6460c1c657",
                       "0addd19f7d26c3ef48b669183312d5e6",
                       "261dc577773c7690ca34f36ea8c04327"];
+var url ="http://movilesbluetooth.php.info.unlp.edu.ar/";
+
 var qrApp = angular.module('starter', ['cordovaHTTP', 'ionic','ngCordova']);
 
-qrApp.run(function($ionicPlatform) {
+
+qrApp.run(function($ionicPlatform, InteractWithServer, $cordovaNetwork) {
   $ionicPlatform.ready(function() {
-    window.localStorage.setItem("039134ef682c6accd7bfda726caa7305", "http://google.com");
-    window.localStorage.setItem("e51ae93ce758643968b56ad582728726", "Aula de posgrado 2");
-    window.localStorage.setItem("452e96dba9cb2bad8156ab6460c1c657", "Aula de posgrado 3");
-    window.localStorage.setItem("0addd19f7d26c3ef48b669183312d5e6", "Aula de posgrado 4");
-    window.localStorage.setItem("261dc577773c7690ca34f36ea8c04327", "Aula de posgrado 5");
-
-
-    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-    // for form inputs)
-    if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-      cordova.plugins.Keyboard.disableScroll(true);
-
-    }
-    if (window.StatusBar) {
-      // org.apache.cordova.statusbar required
-      StatusBar.styleDefault();
+    InteractWithServer.initialize();
+    if ($cordovaNetwork.isOnline()){
+      //InteractWithServer.getCodigos();
     }
   });
 });
 
+qrApp.factory("QRmodel", function(){
+  var codigos=[];
+  var QR = {
+    id: "",
+    hash: "",
+    title: "",
+    description: "",
+    imagetitle: ""};
+
+  return{
+    getQRs : function(){
+            return codigos;},
+
+    setQR: function(item){
+    QR.id=item.id;
+    QR.hash=item.hash;
+    QR.title=item.title;
+    QR.description=item.description;
+    QR.imagetitle=item.imagetitle;
+    codigos.push(QR);}
+  };
+});
+
+qrApp.service("InteractWithServer",function(cordovaHTTP, QRmodel){
+    var username = "movilesbluetooth";
+    var password = "3mFh5qNR";
+    this.initialize = function(){
+      cordovaHTTP.useBasicAuth(username,password);
+    };
+    this.getCodigos = function(){
+      cordovaHTTP.get(url+"qrcodes/",{},{})
+        .then(function(response) {
+          response=JSON.parse(response.data);
+          $.map(response, function(item) { QRmodel.setQR(item);});
+          var codi=QRmodel.getQRs();
+          angular.forEach(codi, function(value, key) {
+              window.localStorage.setItem(value.hash,JSON.stringify(value));
+          });
+        });
+    };
+});
 qrApp.controller("qrController", function($scope, $cordovaBarcodeScanner,$cordovaToast) {
     document.addEventListener("deviceready", function () {
-    $scope.result="";
-    $scope.scanBarcode = function() {
+    $scope.title="";
+      $scope.description="";
+      $scope.imagetitle="";
+
+      $scope.scanBarcode = function() {
         $cordovaBarcodeScanner.scan().then(successCallback, errorCallback);
         }});
+    validation = function(key){
+      alert("validando" + key);
+      var codigo = window.localStorage.getItem(key);
+      alert(codigo);
+      if (codigo != false) {
+        return JSON.parse(cD);
+      }
+      else return false;
+    };
 
     errorCallback = function (error) {
     alert("An error happened -> " + error);
@@ -50,19 +92,20 @@ qrApp.controller("qrController", function($scope, $cordovaBarcodeScanner,$cordov
           $scope.scanBarcode();
       }
       else{
-        var index = valid_numbers.indexOf(imageData.text);    //chequea si el numero encontrado es valido
-        if (index >= 0) {
-          datoQR=localStorage.getItem(imageData.text);
-          if(datoQR.match(/^(http|https)\:\/\/[a-z0-9\.-]+\.[a-z]{2,4}/gi)){ //si es una URL, redirecciona
-            cordova.InAppBrowser.open(datoQR, "_self", "location=yes");
+        var datoQR = validation(imageData.text);    //chequea si el numero encontrado es valido
+        if (datoQR != false) {
+          if(datoQR.description.match(/^(http|https)\:\/\/[a-z0-9\.-]+\.[a-z]{2,4}/gi)){ //si es una URL, redirecciona
+            cordova.InAppBrowser.open(datoQR.description, "_self", "location=yes");
           }
           else {
-          $scope.result = datoQR;
-          if (imageData.cancelled) alert("Volve a internarlo!");
-          else{
-          document.getElementById("startScan").style.display = "none";
-          document.getElementById("result").style.display = "";
-        }
+            if (!imageData.cancelled){
+            $scope.title = datoQR.title;
+            $scope.description = datoQR.description;
+            $scope.imagetitle= datoQR.imagetitle;
+            document.getElementById("startScan").style.display = "none";
+            document.getElementById("result").style.display = "";
+          }
+            else alert("volve a intentarlo");
         }
       }
         else {
@@ -79,20 +122,10 @@ qrApp.controller("qrController", function($scope, $cordovaBarcodeScanner,$cordov
     }
 });
 
-qrApp.controller("serverController", function($scope, cordovaHTTP){
-      console.log("app3 on");
+qrApp.controller("serverController", function($scope, cordovaHTTP, InteractWithServer){
      $scope.getData = function(){
-        console.log("adentro del scope");
-        var username = "movilesbluetooth";
-        var password = "3mFh5qNR";
-        var url ="http://movilesbluetooth.php.info.unlp.edu.ar/qrcodes/";
-
-
-       cordovaHTTP.useBasicAuth(username,password);
-        cordovaHTTP.get(url, {message: "test"} , {}).then(function(response) {
-              alert(response.data);
-              $scope.response_data = response.data;
-            });
+        alert("adentro del scope");
+       InteractWithServer.getCodigos();
     }
 
   });
