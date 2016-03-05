@@ -30,12 +30,10 @@
         // Bind any events that are required on startup. Common events are:
         // 'load', 'deviceready', 'offline', and 'online'.
         bindEvents: function () {
-          console.log("adentro de bind");
             document.addEventListener('deviceready', this.onDeviceReady, false);
         },
 
         onDeviceReady: function () {
-          console.log("adentro de device");
           angular.element(document).ready(function() {
             angular.bootstrap(document, ['starter']);
           });
@@ -48,22 +46,23 @@
   <body>
     <div class="text-center">
 
-	<ion-content ng-controller="qrController">
+	<ion-content ng-controller="qrController"><br>
+<ion-spinner icon="lines"></ion-spinner>
+<br>
 			<button id="startScan" class="button button-assertive" ng-click="scanBarcode()">Scan</button>
 
 
     <div id="result" ng-controller="qrController" style="display: none">
       <div class="list card">
-        <div class="item item-avatar">
-          <h2>Información del código</h2>
-          <h2>   escaneado</h2>
-          <p>Aula: {{ title }}</p>
-
-          <p>Descripción: {{ description }}</p>
+        <div class="item item-divider">
+          <h2>{{ title }}</h2>
+        </div>
+        <div class="item item-text-wrap">
+          <p> {{ description }}</p>
         </div>
 
         <div class="item item-image">
-          <img src="img/"+{{imagetitle}}>
+          <img ng-src="img/{{imagetitle}}">
         </div>
 
         <a class="item item-icon-left assertive" ng-click="scanBarcode()" href="#">
@@ -71,10 +70,6 @@
           Volver a escanear  </a>
 
       </div>  </div>
-    <div ng-controller="serverController">
-      <br>
-      <button id="makeRequest" class="button button-assertive" ng-click="getData()">Server</button>
-    </div>
 	</ion-content>
 
       <!--<ion-content ng-controller="serverController">-->

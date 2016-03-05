@@ -5,11 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-var valid_numbers = ["039134ef682c6accd7bfda726caa7305", //aula2-1 a la 2-5
-                      "e51ae93ce758643968b56ad582728726",
-                      "452e96dba9cb2bad8156ab6460c1c657",
-                      "0addd19f7d26c3ef48b669183312d5e6",
-                      "261dc577773c7690ca34f36ea8c04327"];
+
 var url ="http://movilesbluetooth.php.info.unlp.edu.ar/";
 
 var qrApp = angular.module('starter', ['cordovaHTTP', 'ionic','ngCordova']);
@@ -19,49 +15,46 @@ qrApp.run(function($ionicPlatform, InteractWithServer, $cordovaNetwork) {
   $ionicPlatform.ready(function() {
     InteractWithServer.initialize();
     if ($cordovaNetwork.isOnline()){
-      //InteractWithServer.getCodigos();
+      InteractWithServer.getCodigos();
     }
   });
 });
 
 qrApp.factory("QRmodel", function(){
   var codigos=[];
-  var QR = {
-    id: "",
-    hash: "",
-    title: "",
-    description: "",
-    imagetitle: ""};
 
   return{
     getQRs : function(){
             return codigos;},
 
     setQR: function(item){
-    QR.id=item.id;
-    QR.hash=item.hash;
-    QR.title=item.title;
-    QR.description=item.description;
-    QR.imagetitle=item.imagetitle;
-    codigos.push(QR);}
+    codigos.push(item);}
   };
 });
 
-qrApp.service("InteractWithServer",function(cordovaHTTP, QRmodel){
+
+qrApp.service("InteractWithServer",function(cordovaHTTP, $ionicLoading, QRmodel){
     var username = "movilesbluetooth";
     var password = "3mFh5qNR";
     this.initialize = function(){
       cordovaHTTP.useBasicAuth(username,password);
     };
     this.getCodigos = function(){
+      $ionicLoading.show({
+         template: '<ion-spinner icon="lines"></ion-spinner>',
+         showBackdrop: true,
+         maxWidth: 300,
+         showDelay: 0
+         });
       cordovaHTTP.get(url+"qrcodes/",{},{})
         .then(function(response) {
           response=JSON.parse(response.data);
-          $.map(response, function(item) { QRmodel.setQR(item);});
+          $.map(response, function(item) {QRmodel.setQR(item);});
           var codi=QRmodel.getQRs();
           angular.forEach(codi, function(value, key) {
               window.localStorage.setItem(value.hash,JSON.stringify(value));
           });
+          $ionicLoading.hide();
         });
     };
 });
@@ -75,11 +68,9 @@ qrApp.controller("qrController", function($scope, $cordovaBarcodeScanner,$cordov
         $cordovaBarcodeScanner.scan().then(successCallback, errorCallback);
         }});
     validation = function(key){
-      alert("validando" + key);
       var codigo = window.localStorage.getItem(key);
-      alert(codigo);
-      if (codigo != false) {
-        return JSON.parse(cD);
+      if (codigo != null) {
+        return JSON.parse(codigo);
       }
       else return false;
     };
@@ -99,6 +90,7 @@ qrApp.controller("qrController", function($scope, $cordovaBarcodeScanner,$cordov
           }
           else {
             if (!imageData.cancelled){
+              alert(JSON.stringify(datoQR));
             $scope.title = datoQR.title;
             $scope.description = datoQR.description;
             $scope.imagetitle= datoQR.imagetitle;
@@ -121,11 +113,3 @@ qrApp.controller("qrController", function($scope, $cordovaBarcodeScanner,$cordov
       }
     }
 });
-
-qrApp.controller("serverController", function($scope, cordovaHTTP, InteractWithServer){
-     $scope.getData = function(){
-        alert("adentro del scope");
-       InteractWithServer.getCodigos();
-    }
-
-  });
