@@ -90,7 +90,6 @@ qrApp.controller("qrController", function($scope, $cordovaBarcodeScanner,$cordov
           }
           else {
             if (!imageData.cancelled){
-              alert(JSON.stringify(datoQR));
             $scope.title = datoQR.title;
             $scope.description = datoQR.description;
             $scope.imagetitle= datoQR.imagetitle;
@@ -101,6 +100,9 @@ qrApp.controller("qrController", function($scope, $cordovaBarcodeScanner,$cordov
         }
       }
         else {
+            document.getElementById("startScan").style.display = "";
+            document.getElementById("result").style.display = "none";
+
           $cordovaToast.show('     El código no es válido     ', 'long', 'center')
           .then(function(success) {
                       setTimeout(function(){$scope.scanBarcode();}, 2000);
