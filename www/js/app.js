@@ -61,12 +61,12 @@ qrApp.service("InteractWithServer",function(cordovaHTTP, $ionicLoading, QRmodel)
 qrApp.controller("qrController", function($scope, $cordovaBarcodeScanner,$cordovaToast) {
     document.addEventListener("deviceready", function () {
     $scope.title="";
-      $scope.description="";
-      $scope.imagetitle="";
+    $scope.description="";
+    $scope.imagetitle="";
 
       $scope.scanBarcode = function() {
         $cordovaBarcodeScanner.scan().then(successCallback, errorCallback);
-        }});
+        }},function(){});
     validation = function(key){
       var codigo = window.localStorage.getItem(key);
       if (codigo != null) {

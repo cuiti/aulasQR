@@ -44,12 +44,23 @@
   </head>
 
   <body>
-    <div class="text-center">
 
-	<ion-content ng-controller="qrController"><br>
-<br>
-			<button id="startScan" class="button button-assertive" ng-click="scanBarcode()">Scan</button>
+  <div class="bar bar-header bar-light">
+  <h1 class="title">Prototipo Realidad Aumentada</h1>
+</div>
+<div class="bar bar-subheader">
+  <h2 class="title">Nivel 0</h2>
+</div>
+<br><br><br><br>
+  	<div ng-controller="qrController"><br>
+  <br>
+  <div class="row-center"> 
+      <div class="col col-33 col-offset-25 round"><img src="img/facinfo.jpg"></div>
+  </div>
 
+  <div class="row row-bottom">
+	 <button id="startScan" class="button button-dark button-block" ng-click="scanBarcode()">Scan</button>
+  </div>
 
     <div id="result" ng-controller="qrController" style="display: none">
       <div class="list card">
@@ -68,13 +79,10 @@
           <i class="icon ion-university"></i>
           Volver a escanear  </a>
 
-      </div>  </div>
-	</ion-content>
+      </div>  
+    </div>
+	</div>
 
-      <!--<ion-content ng-controller="serverController">-->
-         <!--<button id="makeRequest" class="button button-assertive" ng-click="getData('algo')">Server</button>-->
-        <!--</ion-content>-->
-  </div>
     <script type="text/javascript">
       pgapp.initialize();
     </script>
