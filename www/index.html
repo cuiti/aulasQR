@@ -59,7 +59,7 @@
   </div>
 
   <div class="row row-bottom">
-	 <button id="startScan" class="button button-dark button-block" ng-click="scanBarcode()">Scan</button>
+	 <button id="startScan" class="button button-dark button-block" on-touch="scanBarcode()">Scan</button>
   </div>
 
     <div id="result" ng-controller="qrController" style="display: none">
@@ -75,7 +75,7 @@
           <img ng-src="img/{{imagetitle}}">
         </div>
 
-        <a class="item item-icon-left assertive" ng-click="scanBarcode()" href="#">
+        <a class="item item-icon-left assertive" on-touch="scanBarcode()" href="#">
           <i class="icon ion-university"></i>
           Volver a escanear  </a>
 
