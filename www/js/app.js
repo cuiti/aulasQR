@@ -34,10 +34,11 @@ qrApp.factory("QRmodel", function(){
 
 
 qrApp.service("InteractWithServer",function(cordovaHTTP, $ionicLoading, QRmodel){
-    var username = "movilesbluetooth";
-    var password = "3mFh5qNR";
+    var key = "bW92aWxlc2JsdWV0b290aDozbUZoNXFOUg==";
+    var value = "Basic "+key;
+
     this.initialize = function(){
-      cordovaHTTP.useBasicAuth(username,password);
+      cordovaHTTP.setHeader("Authorization", value);
     };
     this.getCodigos = function(){
       $ionicLoading.show({
