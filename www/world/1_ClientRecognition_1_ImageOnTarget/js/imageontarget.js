@@ -67,7 +67,7 @@ var World = {
 		var cssDivRight = " style='display: table-cell;vertical-align: middle; text-align: left;'";
 		document.getElementById('loadingMessage').innerHTML =
 			"<div" + cssDivLeft + ">Scan Target &#35;1 (postgrado):</div>" +
-			"<div" + cssDivRight + "><img src='assets/logo-postgrado.jpg'></img></div>";
+			"<div" + cssDivRight + "><img src='assets/logo-postgradomin.jpg'></img></div>";
 
 		// Remove Scan target message after 10 sec.
 		setTimeout(function() {

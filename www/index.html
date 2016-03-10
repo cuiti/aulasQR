@@ -12,8 +12,7 @@
     <script type="text/javascript" src="lib/jquery/jquery-2.1.4.min.js"></script>
 
 	<!--Jquery agregados por wikitude-->
-	<link rel="stylesheet" href="jquery/jquery.mobile-1.3.2.min.css" />
-	<script src="jquery/jquery.mobile-1.3.2.min.js"></script>
+	<!--script src="jquery/jquery.mobile-1.3.2.min.js"></script-->
 		
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
@@ -62,20 +61,22 @@
   <h1 class="title">Prototipo Realidad Aumentada</h1>
 </div>
 <div class="bar bar-subheader">
-  <h2 class="title">Nivel 0</h2>
+  <h2 class="title">Nivel 0 y 1</h2>
 </div>
 <br><br><br><br>
   	<div ng-controller="qrController"><br>
   <br>
   <div class="row-center"> 
-      <div class="col col-33 col-offset-25 round"><img src="img/facinfo.jpg"></div>
+      <div class="col col-33 col-offset-33"><img src="img/facinfo.jpg"></div>
   </div>
 
   <div class="row row-bottom">
-	 <button id="startScan" class="button button-dark button-block" on-touch="scanBarcode()">Scan</button>
-	 <a href="javascript:app.loadARchitectWorld(getSamplePath(0, 0));">1.1 Image on Target</a>
-	 <a href="javascript:app.loadARchitectWorld(getSamplePath(8, 1));">9.2 Solar System (Geo)</a>
+	 <div class="col" id="startScan" ><button class="button button-dark button-block" on-touch="scanBarcode()">Scan</button><br><a class="button button-dark button-block" href="javascript:app.loadARchitectWorld(getSamplePath(0, 0));">Reconocimiento de Imagen</a><br><a class="button button-dark button-block" href="javascript:app.loadARchitectWorld(getSamplePath(8, 1));">Geolocalización: Sistema Solar</a>
   </div>
+</div>
+
+	 
+	 
 
     <div id="result" ng-controller="qrController" style="display: none">
       <div class="list card">
