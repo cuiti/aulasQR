@@ -8,6 +8,7 @@ App para poder detectar códigos QR y mostrar su contenido, utilizando el framew
 3. cordova plugin add cordova-plugin-http
 4. cordova plugin add cordova-plugin-inappbrowser
 5. cordova plugin add cordova-plugin-network-information
+6. cordova plugin add https://github.com/Wikitude/wikitude-cordova-plugin.git
 
 
 

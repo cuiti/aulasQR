@@ -59,6 +59,7 @@ qrApp.service("InteractWithServer",function(cordovaHTTP, $ionicLoading, QRmodel)
         });
     };
 });
+
 qrApp.controller("qrController", function($scope, $cordovaBarcodeScanner,$cordovaToast) {
     document.addEventListener("deviceready", function () {
     $scope.title="";
